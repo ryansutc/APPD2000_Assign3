@@ -13,10 +13,12 @@
     <fragment android:id="@+id/list"
         android:layout_height="fill_parent"
         android:name="com.example.w0143446.anotherfragmenttest.myListFragment"
-        android:layout_width="300dp" />
+        android:layout_width="300dp"
+        tools:layout="@layout/fragment_my_list" />
 
-    <fragment android:id="@+id/tvNote"
+    <fragment android:id="@+id/imageLayout"
         android:layout_height="fill_parent"
         android:name="com.example.w0143446.anotherfragmenttest.ImageFragment"
-        android:layout_width="400dp" />
+        android:layout_width="400dp"
+        tools:layout="@layout/fragment_image" />
 </LinearLayout>
