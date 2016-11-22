@@ -4,6 +4,7 @@ package com.example.w0143446.anotherfragmenttest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ public class myListFragment extends ListFragment implements OnItemClickListener 
 
     protected CustomListAdapter adapter;
     public Integer[] imageId = new Integer[7];
+    String[] web = new String[7];
+
     //listener to notify when image selected
     OnImageSelectedListener imgSelectedListener = null;
 
@@ -84,15 +87,18 @@ public class myListFragment extends ListFragment implements OnItemClickListener 
         imageId[6] = R.drawable.pic7;
         //imageId[7] = R.drawable.pic7;
 
-        String[] web = {
-                "Image 1",
-                "Image 2",
-                "Image 3",
-                "Image 4",
-                "Image 5",
-                "Image 6",
-                "Image 7"
-        } ;
+        Resources res = getResources();
+        web = res.getStringArray(R.array.image_name_arrays);
+        /*
+        web[0] = "Image 1";
+        web[1] = "Image 2";
+        web[2] = "Image 3";
+        web[3] = "Image 4";
+        web[4] = "Image 5";
+        web[5] = "Image 6";
+        web[6] = "Image 7";
+        //web[7] = "Image 8";
+        */
        // imagesListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.fragment_image, imagesList);
         // Restore preferences
         settings = this.getActivity().getPreferences(Context.MODE_PRIVATE); //0 = private
@@ -135,11 +141,14 @@ public class myListFragment extends ListFragment implements OnItemClickListener 
         }
     }
 
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        /*
         if (imgSelectedListener != null) {
             imgSelectedListener.onImageSelected(position);
         }
+        */
     }
 
     @Override
@@ -154,7 +163,6 @@ public class myListFragment extends ListFragment implements OnItemClickListener 
     Handle List Item Click...
      */
     public void onListItemClick(ListView l, View v, int position, long id) {
-        System.out.println("Item was clicked");
         imgSelectedListener.onImageSelected(position);
         //showDetails(position);
     }
