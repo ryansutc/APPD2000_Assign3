@@ -1,4 +1,4 @@
-package com.example.w0143446.anotherfragmenttest;
+package com.example.w0143446.pictureviewer;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
