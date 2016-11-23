@@ -1,9 +1,7 @@
-package com.example.w0143446.anotherfragmenttest;
+package com.example.w0143446.pictureviewer;
 
-//import android.support.v4.app.Fragment;
-//import android.support.v4.app.ListFragment;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
@@ -11,37 +9,24 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+public class MainActivity extends AppCompatActivity implements MyListFragment.OnImageSelectedListener {
 
-import java.util.HashSet;
-import java.util.Set;
-
-
-public class MainActivity extends AppCompatActivity implements myListFragment.OnImageSelectedListener {
-
-    //shared preferences stuff
-    //public static final String IMAGE_VIEWED_PREFS = "ImagesViewed";
-    //public SharedPreferences settings;
-
-    myListFragment mylistFragment;
+    //Fragment Parts
+    MyListFragment mylistFragment;
     ImageFragment myimgFragment;
-
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
 
     // Whether or not we are in dual-pane mode
     boolean isDualPane = false;
 
     private Animation myAnimation;
-
     //image currently being displayed
     int imgIndex = 0;
 
@@ -50,14 +35,20 @@ public class MainActivity extends AppCompatActivity implements myListFragment.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // determine whether we are in single or dual pane
+        // if screen width is more than 1000 pixels, use dual pane
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
 
-        if (width > 1000) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int densityDpi = metrics.densityDpi;
+
+
+        System.out.println("Your screen width = " + width/ densityDpi + ", your height is " + height/ densityDpi);
+        if (width / densityDpi > 2) {
             isDualPane = true;
             setContentView(R.layout.activity_main);
             myimgFragment = (ImageFragment) getSupportFragmentManager().findFragmentById(
@@ -70,15 +61,14 @@ public class MainActivity extends AppCompatActivity implements myListFragment.On
         Toast.makeText(MainActivity.this, "Your screen width = " + width +
                 ", your height is " + height, Toast.LENGTH_SHORT).show();
         //find our fragments
-        mylistFragment = (myListFragment) getSupportFragmentManager().findFragmentById(
+        mylistFragment = (MyListFragment) getSupportFragmentManager().findFragmentById(
                 R.id.list);
-
 
         //register ourselves as the listener for list fragment
         mylistFragment.setOnImageSelectedListener(this);
     }
 
-    //called when an image is selected
+    //called when an image is selected in myFragmentList
     @Override
     public void onImageSelected(int index) {
 
@@ -86,16 +76,10 @@ public class MainActivity extends AppCompatActivity implements myListFragment.On
             return;
         }
         Toast.makeText(MainActivity.this, "You Clicked at " + index, Toast.LENGTH_SHORT).show();
-        //create a new intent, pass image, send intent
-        //Intent myIntent = new Intent(MainActivity.this, FullscreenActivity.class);
-
-        //myIntent.putExtra("web", web[+ position]);
-        //System.out.println(getResources(imageId[+ position]));
-        //myIntent.putExtra("image", (Integer) imageId[position]);
-
-
+        //remember item in list
+        mylistFragment.adapter.setItemEnabled(index, false);
+        //if dual view, we have two fragments to set up directly
         if (isDualPane) {
-            mylistFragment.adapter.setItemEnabled(index, false);
 
             System.out.println("Here is the numbers");
             for (int i=0;i< 8; i++){
@@ -113,18 +97,18 @@ public class MainActivity extends AppCompatActivity implements myListFragment.On
             tvNote.setText("This is a view of image " + index);
 
         }
+        //if single pane view, we have to pass intent info to new activity
         else {
             //create a new intent, pass image, send intent
             Intent myIntent = new Intent(MainActivity.this, FullscreenActivity.class);
 
             myIntent.putExtra("web", mylistFragment.web[index]);
             myIntent.putExtra("image", (Integer) mylistFragment.imageId[index]);
-            //System.out.println(getResources(imageId[+ position]));
-            //myIntent.putExtra("image", (Integer) imageId[position]);
             startActivity(myIntent); //no result expected back
-            }
+        }
     }
 
+    //do some animation on loading the image
     public void animateImage(ImageView imageView) {
         myAnimation = AnimationUtils.loadAnimation(this, R.anim.fade);
         imageView.startAnimation(myAnimation);
