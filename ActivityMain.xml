@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
@@ -8,17 +9,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.w0143446.anotherfragmenttest.MainActivity">
+    tools:context="com.example.w0143446.pictureviewer.MainActivity">
+
 
     <fragment android:id="@+id/list"
         android:layout_height="fill_parent"
-        android:name="com.example.w0143446.anotherfragmenttest.myListFragment"
+        android:name="com.example.w0143446.pictureviewer.MyListFragment"
         android:layout_width="300dp"
         tools:layout="@layout/fragment_my_list" />
 
     <fragment android:id="@+id/imageLayout"
         android:layout_height="fill_parent"
-        android:name="com.example.w0143446.anotherfragmenttest.ImageFragment"
+        android:name="com.example.w0143446.pictureviewer.ImageFragment"
         android:layout_width="400dp"
         tools:layout="@layout/fragment_image" />
 </LinearLayout>
