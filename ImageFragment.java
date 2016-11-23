@@ -1,4 +1,4 @@
-package com.example.w0143446.anotherfragmenttest;
+package com.example.w0143446.pictureviewer;
 
 
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 
 /**
